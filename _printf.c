@@ -1,22 +1,21 @@
 #include "main.h"
 #include <stdarg.h>
 #include <stdlib.h>
-#include <stdio.h>
+
 /**
  * _printf - prints a string to stdout handling c, s, %
  * @format: string input to print
- * @...: variable arguments to be passed to the function
  * Return: number of characters printed
  */
 
 int _printf(const char *format, ...)
 {
 	int i, c, len = 0, len2 = 0;
-	va_list ap;
 	char *s;
+	va_list ap;
 
-	if ((format == NULL) || (format[0] == '%' && format[1] == ' '
-	&& format[2] == '\0') || (format[0] == '%' && format[1] == '\0'))
+	if ((format == NULL) || (format[0] == '%' && format[1] == ' ' &&
+	format[2] == '\0') || (format[0] == '%' && format[1] == '\0'))
 		return (-1);
 		va_start(ap, format);
 		for (i = 0; format[i] != '\0'; i++)
@@ -25,8 +24,7 @@ int _printf(const char *format, ...)
 			{
 				if (format[i + 1] == 'c')
 				{
-					_putchar(va_arg(ap, int));
-						i++, len++;
+					_putchar(va_arg(ap, int)), i++, len++;
 				}
 				else if (format[i + 1] == 's')
 				{
@@ -34,36 +32,22 @@ int _printf(const char *format, ...)
 					if (s == NULL)
 						len2 += print_string("(null)");
 					else
-						len2 += print_string(s);
-					i++;
+						len2 += print_string(s), i++;
 				}
 				else if (format[i + 1] == '%')
-				{
-					_putchar(format[i]);
-					i++;
-					len++;
-				}
+					_putchar(format[i]), i++, len++;
 				else if (format[i + 1] == 'd' || format[i + 1] == 'i')
 				{
 					c = va_arg(ap, int);
 					if (c < 0)
 						len++;
-					print_integer(c);
-					len2 += count_int(c);
-					i++;
+					print_integer(c), len2 += count_int(c), i++;
 				}
 				else
-				{
-					_putchar(format[i]);
-					len++;
-				}
+					_putchar(format[i]), len++;
 			}
 			else
-			{
-				_putchar(format[i]);
-				len++;
-			}
-		}
-		va_end(ap);
-	return (len + len2);
+				_putchar(format[i]), len++;
+		} va_end(ap);
+		return (len + len2);
 }
